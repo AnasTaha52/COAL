@@ -1,0 +1,71 @@
+; Program that Equal, greatrer , lesser
+dosseg
+print macro str
+lea dx , str
+mov ah , 9
+int 21h
+endm
+.model small
+.stack 100h
+.data
+first db "Enter first Number :: $"
+second db "Enter Second Number :: $"
+n1 db ?
+n2 db ?
+s1 "Numbers Are Equal!$"
+s2 "Numbers Are Not Equal!$"
+s3 "First Number is greater than second!$"
+s4 "First Number is lesser than second!$"
+.code
+
+main proc
+mov ax , @data
+mov ds , ax
+
+print first
+mov ah , 1
+int 21h
+mov n1 , al
+call nextline
+print second
+mov ah , 1
+int 21h
+mov n2 , al
+cmp n1 , n2
+je Equal
+jne notEqual
+jg Greater
+jl Lesser
+mov ah , 4ch
+int 21h
+
+Equal:
+call nextline
+print s1
+mov ah , 4ch
+int 21h
+notEqual:
+call nextline
+print s2
+mov ah , 4ch
+int 21h
+Greater:
+call nextline
+print s3
+mov ah , 4ch
+int 21h
+lesser:
+call nextline
+print s4
+mov ah , 4ch
+int 21h
+
+nextline proc
+mov dl , 10
+mov ah , 2
+int 21h
+ret
+nextline endp
+
+main endp
+end main
